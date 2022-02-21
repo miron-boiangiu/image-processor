@@ -1,0 +1,46 @@
+==Description of program's functions==
+
+get_command_type: it gets a char* command as a parameter, from which
+it extracts the type (the first word) and writes it in char** command_type.
+
+edit: first, it extracts the location of the picture we want to load
+into memory, which is then read byte by byte into the corresponding
+locations, also passed as parameters.
+
+save: it extracts the location where the user wishes to save the picture
+just like the edit function does, then writes the image byte by byte in
+the same fashion it was read.
+
+insert: reads the image to be inserted just like edit does, then writes
+it straight into the image matrix with the offsets of x and y, skipping
+the pixels that would need to be written outside the image's resolution.
+
+draw_point: draws a square with the center in the coordinates x and y
+and side length of specified value.
+
+draw_line: determines whether the interval of [x1,x2] or [y1,y2] is bigger
+then applies a formula which takes in a coordinate and calculates the
+other one, formula applied on each value in the bigger interval.
+For each determined point on the line, draw_point is called in order
+to draw it with the desired size.
+
+set: checks whether the user wants to change draw_color or line_width
+and saves these values in the spots passed as parameters, to be used
+in the other functions.
+
+draw: checks what the user wants to draw (the second word in the command),
+then uses the draw_line function accordingly.
+
+fill: this function works by making a "layer" on top of the image:
+it starts by marking just the point passed as a parameter, then it
+goes to the main image and checks whether its neighbouring pixels
+are the same color. If they are, they get marked as well and then
+the neighbours of those pixels get checked. This goes on until
+no more pixels can be marked. At that stage, the layer is complete
+and it has all the pixels that need to be changed to the desired
+color, all that's left to do is, for each marked pixel on that layer,
+to go to its same coordinates in the main picture and change that
+pixel's colors into the desired ones.
+
+main: infinitely takes in commands and passes them to the corresponding
+functions, only stops when given the command "quit".
